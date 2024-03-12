@@ -1,0 +1,11 @@
+[Instargram Upload]
+; ProductID Url
+4444	www.yahoo.com
+1111	www.naver.com
+2222	www.daum.com
+3333	www.google.com
+
+[Upload Time]
+231102
+230201
+240301
