@@ -7,3 +7,4 @@ with open('TEST.json', 'r') as json_file:
     print(values['web']['languages'][0])
     print(len(values['TEST']['TEST2']))
     print(len(values['web']['languages']))
+    print(len(values['web']['languages']))
