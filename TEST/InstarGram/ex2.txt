@@ -1,0 +1,66 @@
+import time
+from pathlib import Path
+import pyperclip
+import selenium
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+bylist=[By.ID,By.NAME,By.CLASS_NAME,By.CSS_SELECTOR,By.TAG_NAME,By.LINK_TEXT,By.PARTIAL_LINK_TEXT,By.XPATH]
+def find_element(bs,value,by=0,s=0):
+    bystr=""
+    for b in range(0,len(bylist)):
+        if b==by:
+            bystr=bylist[b]
+    if s==0:
+        return bs.find_element(bystr, value)
+    else:
+        return bs.find_elements(bystr, value)
+def find_el(bs,value,by=3,s=0):
+    return find_element(bs,value,by,s)
+def input_text(bs, id, user_input,by=3):
+    pyperclip.copy(user_input)
+    find_el(bs,id,by).click()
+    Keys = selenium.webdriver.Keys
+    selenium.webdriver.ActionChains(bs).key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+def option():
+    option = Options()
+    option.add_experimental_option("prefs", {
+        "profile.default_content_setting_values.notifications": 1
+    })
+    return option
+f = open('instagram_login.txt', "r")
+ref = f.readlines()
+res=''.join(ref[:2])
+browser = webdriver.Chrome(options=option())
+browser.get("https://www.instagram.com")
+
+input_text(browser,'input[name="username"]',f"{ref[0]}",3) # 사용자 이름
+
+input_text(browser,'input[name="password"]',f"{ref[1]}",3) # 비밀번호
+time.sleep(2)
+submit=find_el(browser,'button._acan._acap._acas._aj1-._ap30',3) #로그인 버튼
+submit.click() #로그인 버튼 클릭
+time.sleep(8)
+try:
+    find_el(browser,'div.x1i10hfl.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x1lku1pv.x1a2a7pz.x6s0dn4.xjyslct.x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.x9f619.x1ypdohk.x1f6kntn.xwhw2v2.xl56j7k.x17ydfre.x2b8uid.xlyipyv.x87ps6o.x14atkfc.xcdnw81.x1i0vuye.xjbqb8w.xm3z3ea.x1x8b98j.x131883w.x16mih1h.x972fbf.xcfux6l.x1qhh985.xm0m39n.xt0psk2.xt7dq6l.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x1n5bzlp.x173jzuc.x1yc6y37').click() # 로그인 정보 저장 나중에 하기
+except:
+    pass
+time.sleep(2)
+find_el(browser,'div.x9f619.xxk0z11.xii2z7h.x11xpdln.x19c4wfv.xvy4d1p > svg.x1lliihq.x1n2onr6.x5n08af',3,1)[7].click() # 탭 메뉴 영역 만들기 svg 클릭
+time.sleep(1)
+find_el(browser,'div.x9f619.x1n2onr6.x1ja2u2z.x78zum5.xdt5ytf.x2lah0s.x193iq5w.xeuugli.x1iyjqo2 > div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1uhb9sk.x1plvlek.xryxfnj.x1iyjqo2.x2lwn1j.xeuugli.xdt5ytf.xqjyukv.x1cy8zhl.x1oa3qoh.x1nhvcw1 > span.x1lliihq.x1plvlek.xryxfnj.x1n2onr6.x193iq5w.xeuugli.x1fj9vlw.x13faqbe.x1vvkbs.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.x1i0vuye.xl565be.xo1l8bm.x5n08af.x10wh9bi.x1wdrske.x8viiok.x18hxmgj > span.x1lliihq.x193iq5w.x6ikm8r.x10wlt62.xlyipyv.xuxw1ft',3,1)[0].click() # 새로운 게시물 클릭
+time.sleep(2)
+dir_path=Path.cwd()
+file_path=f"{dir_path}"+'\\'+"field-8172323_1280.jpg"
+file_input=find_el(browser,'div.x9f619.xjbqb8w.x78zum5.x168nmei.x13lgxp2.x5pf9jr.xo71vjh.x1n2onr6.x6ikm8r.x10wlt62.x1iyjqo2.x2lwn1j.xeuugli.xdt5ytf.xqjyukv.x1qjc9v5.x1oa3qoh.x1nhvcw1 input._ac69',3) # 파일 input
+file_input.send_keys(file_path) # 파일 입력
+time.sleep(5)
+find_el(browser,'div.x1i10hfl.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x1lku1pv.x1a2a7pz.x6s0dn4.xjyslct.x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.x9f619.x1ypdohk.x1f6kntn.xwhw2v2.xl56j7k.x17ydfre.x2b8uid.xlyipyv.x87ps6o.x14atkfc.xcdnw81.x1i0vuye.xjbqb8w.xm3z3ea.x1x8b98j.x131883w.x16mih1h.x972fbf.xcfux6l.x1qhh985.xm0m39n.xt0psk2.xt7dq6l.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x1n5bzlp.x173jzuc.x1yc6y37',3,0).click() # 다음 버튼 클릭
+time.sleep(2)
+find_el(browser,'div.x1i10hfl.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x1lku1pv.x1a2a7pz.x6s0dn4.xjyslct.x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.x9f619.x1ypdohk.x1f6kntn.xwhw2v2.xl56j7k.x17ydfre.x2b8uid.xlyipyv.x87ps6o.x14atkfc.xcdnw81.x1i0vuye.xjbqb8w.xm3z3ea.x1x8b98j.x131883w.x16mih1h.x972fbf.xcfux6l.x1qhh985.xm0m39n.xt0psk2.xt7dq6l.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x1n5bzlp.x173jzuc.x1yc6y37',3,0).click() # 다음 버튼 클릭
+time.sleep(2)
+input_text(browser,'p.xdj266r.x11i5rnm.xat24cr.x1mh8g0r',res) # 내용 입력
+time.sleep(1)
+find_el(browser,'div.x1i10hfl.xjqpnuy.xa49m3k.xqeqjp1.x2hbi6w.xdl72j9.x2lah0s.xe8uvvx.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x2lwn1j.xeuugli.x1hl2dhg.xggy1nq.x1ja2u2z.x1t137rt.x1q0g3np.x1lku1pv.x1a2a7pz.x6s0dn4.xjyslct.x1ejq31n.xd10rxx.x1sy0etr.x17r0tee.x9f619.x1ypdohk.x1f6kntn.xwhw2v2.xl56j7k.x17ydfre.x2b8uid.xlyipyv.x87ps6o.x14atkfc.xcdnw81.x1i0vuye.xjbqb8w.xm3z3ea.x1x8b98j.x131883w.x16mih1h.x972fbf.xcfux6l.x1qhh985.xm0m39n.xt0psk2.xt7dq6l.xexx8yu.x4uap5.x18d9i69.xkhd6sd.x1n2onr6.x1n5bzlp.x173jzuc.x1yc6y37',3,0).click() #게시 버튼 클릭
+time.sleep(10)
+browser.quit()

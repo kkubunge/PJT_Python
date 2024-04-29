@@ -1,0 +1,60 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import random
+
+driver = webdriver.Chrome('chromedriver.exe')
+driver.get('https://instagram.com')
+
+# 자동화할때 젤중요(페이지 이동시 자주 필요)
+time.sleep(3)
+
+# 아이디 입력
+e = driver.find_elements_by_class_name('_2hvTZ')[0]
+e.send_keys('인스타아이디')
+
+# 비번 입력
+e = driver.find_elements_by_class_name('_2hvTZ')[1]
+e.send_keys('인스타비밀번호')
+e.send_keys(Keys.ENTER) #키보드 입력 구현
+time.sleep(3)
+
+# 로그인 정보저장>나중에하기
+driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div/div/button').click()
+#driver.find_elements_by_class_name('sqdOP')[1].click()
+time.sleep(3)
+
+# 알림 > 나중에하기
+driver.find_elements_by_class_name('_a9--')[1].click()
+time.sleep(3)
+
+# 태그주소 접속
+driver.get('https://www.instagram.com/explore/tags/데일리/')
+time.sleep(6)
+
+# 처음에는 이전 컨텐츠 버튼이 없어서 배열 인덱스가 다름(********************)
+# 첫번째 컨텐츠 선택
+driver.find_elements_by_class_name('_aagw')[0].click()
+time.sleep(3)
+
+# 좋아요 누르기
+driver.find_elements_by_class_name('_abl-')[3].click()
+time.sleep(1)
+
+# 다음 컨텐츠 버튼 클릭
+driver.find_elements_by_class_name('_abl-')[1].click()
+time.sleep(random.randrange(3, 6, 2))
+
+# 두번째 컨텐츠 부터 다른 인덱스(********************)
+# 좋아요 누르기
+driver.find_elements_by_class_name('_abl-')[4].click()
+time.sleep(1)
+
+for i in range(5):
+    # 다음 컨텐츠 버튼 클릭
+    driver.find_elements_by_class_name('_abl-')[2].click()
+    time.sleep(random.randrange(3, 6, 2))
+
+    # 좋아요 누르기
+    driver.find_elements_by_class_name('_abl-')[4].click()
+    time.sleep(1)

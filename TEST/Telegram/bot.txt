@@ -1,0 +1,36 @@
+6763521890:AAHhSPmC402k91oDmbqRjt1Sg7yQaaASesk
+
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 840833884,
+      "message": {
+        "message_id": 1,
+        "from": {
+          "id": 7134204973,
+          "is_bot": false,
+          "first_name": "Ω∫≈‰æÓ",
+          "last_name": "≤®∫°¿Ã",
+          "language_code": "ko"
+        },
+        "chat": {
+          "id": 7134204973,
+          "first_name": "Ω∫≈‰æÓ",
+          "last_name": "≤®∫°¿Ã",
+          "type": "private"
+        },
+        "date": 1711976205,
+        "text": "/start",
+        "entities": [
+          {
+            "offset": 0,
+            "length": 6,
+            "type": "bot_command"
+          }
+        ]
+      }
+    }
+  ]
+}
+
