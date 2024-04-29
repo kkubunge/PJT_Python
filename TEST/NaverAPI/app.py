@@ -1,3 +1,4 @@
+import http.client
 import urllib
 import urllib.request
 import urllib.parse
@@ -7,11 +8,14 @@ import time
 import requests
 import urllib3
 from datetime import datetime, timedelta
+import json
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 app_ID = "28HXQytrZEW9EuOsCUBzmJ"
 app_Secret = "$2a$04$k7NoYJhsY8cpFhnDZICMRO"
+
+file_path = 'E:\\80_Program\\PJT_Python\\TEST\\NaverAPI\\Json\\test.json'
 
 def get_token(client_id, clientSecret, type_="SELF"):
     # 3초전 timestamp
@@ -78,20 +82,20 @@ def get_new_order_list(token):
     oauth_url = 'https://api.commerce.naver.com/external/v1/pay-order/seller/product-orders/last-changed-statuses'
 
     now = datetime.now()
-    before_date = now - timedelta(hours=23)  # 23시간전
+    before_date = now - timedelta(days=3)  # 23시간전
     from_date = before_date.strftime("%Y-%m-%dT%H:%M:%S.000+09:00")
-    to_date = now.strftime("%Y-%m-%dT%H:%M:%S.000+09:00")
+    # to_date = now.strftime("%Y-%m-%dT%H:%M:%S.000+09:00")
     # before_date = now - timedelta(hours=3) #3시간전
     # before_date = now - timedelta(seconds=10) #10초전
     # before_date = now - timedelta(minutes=10) #10분전
 
 
-    print("before : " + from_date + " ~ " + to_date)
+    # print("before : " + from_date + " ~ " + to_date)
     # Example: lastChangedFrom=2022-04-11T15:21:44.000+09:00
 
     params = {
         'lastChangedFrom': from_date,  # 조회 시작 일시
-        'lastChangedTo': to_date,  # 24시간 기준으로 설정해야 함...
+        # 'lastChangedTo': to_date,  # 24시간 기준으로 설정해야 함...
             # 'lastChangedType': 'PAYED', #최종변경구분(PAYED : 결제완료, DISPATCHED : 발송처리)
     }
 
@@ -112,10 +116,43 @@ def get_new_order_list(token):
     return response_data
 
 
+def get_category_list(token):
+
+    headers = {'Authorization': token}
+    oauth_url = 'https://api.commerce.naver.com/external/v1/categories'
+
+    params = {
+        'last': True,
+    }
+
+    response = requests.get(url=oauth_url, headers=headers, params=params, verify=False)
+    parsingJson = json.loads(response.text)
+    with open(file_path, 'w', encoding='utf-8') as outfile:
+        json.dump(parsingJson, outfile, indent=4, ensure_ascii=False)
+
+    print("json len : " + str(len(parsingJson)))
+
+    return json.dumps(parsingJson, indent=4, ensure_ascii=False)
 
 
+def get_category_ID(token):
 
+    headers = {'Authorization': token}
+    oauth_url = 'https://api.commerce.naver.com/external/v1/categories'
 
+    params = {
+        'last': True,
+    }
+
+    response = requests.get(url=oauth_url, headers=headers,
+                            params=params, verify=False)
+    parsingJson = json.loads(response.text)
+    with open(file_path, 'w', encoding='utf-8') as outfile:
+        json.dump(parsingJson, outfile, indent=4, ensure_ascii=False)
+
+    print("json len : " + str(len(parsingJson)))
+
+    return json.dumps(parsingJson, indent=4, ensure_ascii=False)
 
 token = get_token(client_id=app_ID, clientSecret=app_Secret)
 print(f'발급된 토큰 : ', token)
@@ -131,9 +168,12 @@ print("============================================")
 # print("============================================")
 # print(str(len(product_List["contents"])))
 
-order_List = get_new_order_list(token)
-print(order_List)
+# order_List = get_new_order_list(token)
+# print(order_List)
 
+category_List = get_category_list(token)
+print(category_List)
 
-
+category_ID = get_category_ID(token)
+print(category_ID)
 
