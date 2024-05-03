@@ -13,6 +13,7 @@ import json
 import requests
 from collections import Counter
 
+# filterName = ['-', 'ml', 'l', 'L', 'cm', 'CM', '오늘출발', '오늘배송']
 
 def Get_CategoryID_Search(keyword):
 
@@ -52,8 +53,7 @@ def Get_CategoryID_Search(keyword):
         'xq': '',
     }
 
-    response = requests.get(
-        'https://search.shopping.naver.com/api/search/all', params=params, headers=headers)
+    response = requests.get('https://search.shopping.naver.com/api/search/all', params=params, headers=headers)
     result = json.loads(response.text)
 
     product_data = result['shoppingResult']['products']
@@ -146,7 +146,7 @@ def Get_ProductName_Search(search_word):
     product_data = result['shoppingResult']['products']
 
     json_data = [{
-        'name': ""
+        'name': "test"
     }]
 
     for product in product_data:
@@ -156,7 +156,7 @@ def Get_ProductName_Search(search_word):
         cnt = len(str_chars)
         for i in range(0, cnt):
 
-            if (str_chars[i] != '-'):
+            if (str_chars[i] != '-' and len(str_chars[i]) > 1):
                 product_dict = {
                     'name': str_chars[i]
                 }
@@ -232,16 +232,18 @@ def Get_ProductTag_Search(search_word):
     product_data = result['shoppingResult']['products']
 
     json_data = [{
-        'tag': ""
+        'tag': "test"
     }]
 
     for product in product_data:
         # name = product['productTitle']
         tag = product['manuTag']
         str_chars = tag.split(',')
+
         cnt = len(str_chars)
+
         for i in range(0, cnt):
-            if (str_chars[i] !=""):
+            if (str_chars[i] != '' and len(str_chars[i]) > 1):
                 product_dict = {
                     'tag': str_chars[i]
                 }
@@ -272,7 +274,7 @@ def Get_ProductTag_Search(search_word):
     return top_tags
 
 
-keyword = "피에른 접이식 선반"
+keyword = "이동식 행거 철제 스탠드 옷걸이 강철 일자"
 maxCategoryID = Get_CategoryID_Search(keyword)
 print("maxCategoryID : " + str(maxCategoryID))
 
