@@ -1,14 +1,3 @@
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from datetime import datetime
-import urllib.request
-import time
-import random
-import os
 import json
 import requests
 from collections import Counter
@@ -274,7 +263,7 @@ def Get_ProductTag_Search(search_word):
     return top_tags
 
 
-keyword = "이동식 행거 철제 스탠드 옷걸이 강철 일자"
+keyword = "이자와피카머그 오렌지"
 maxCategoryID = Get_CategoryID_Search(keyword)
 print("maxCategoryID : " + str(maxCategoryID))
 
